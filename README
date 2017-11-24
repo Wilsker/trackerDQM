@@ -1,0 +1,79 @@
+/////////////////////////////////////
+	SiStrip Tracker DQM: Useful Notes
+/////////////////////////////////////
+
+A stream of consciousness containing important tips 'n' tricks picked up
+while performing tracker DQM service task.
+
+- 'http://cms-sw.github.io/latestIBs.html' - Latest integration build webpage. Info on which scram arch to use for the latest IB's.
+- Can use 'scram list' to see which CMSSW version are available for a given scram arch.
+- 'export SCRAM_ARCH="slc6_amd64_gcc630"' worked fine for 'CMSSW_9_4_X'.
+- Can then do e.g. :
+				$>cmsrel CMSSW_9_4_X_2017-10-16-1100
+				$>cd CMSSW_9_4_X_2017-10-16-1100/src
+				$>cmsenv
+				$>git cms-init
+- One can checkout individual DQM software packages to your local build using 'git cms-addpkg DQM/<name_o_package>'
+- Now compile with:
+				$>scram b
+
+//////////////////////////////////
+	runTheMatrix.py
+//////////////////////////////////
+
+- Check which worflow you want to run: 'runTheMatrix.py -n'
+- To run a data workflow can try: 'runTheMatrix.py -l 136.765'
+- To run a MC workflow can try: 'runTheMatrix.py -l 10024'
+- Adding the command to the line above, you can decide how many events will be processed: --command "-n <number-of-events-you-want-to-process>"
+///////////////////////////////////
+	DQM GUI Advice
+//////////////////////////////////
+
+Local/private GUI:
+- Enure you have clean environment before following Twiki instructions (DON'T source CMSSW).
+- Use 'git clone https://github.com/dmwm/deployment.git'.
+- 'rm -rf ~/.gitconfig' if exists as it interferes with '~/.ssh/config'.
+- Ensure browser ssh tunneling through lxplus machine and tunnel set up.
+
+Online/Offline GUI:
+- Can search for primary datasets (PDs) e.g. '/ZeroBiasIsolatedBunches1/Run2017D-PromptReco-v1/DQMIO' but only available in offline instance.
+
+- "JSROOT" button will show the non-rendered root histogram in the GUI.
+- "JSON data" button will show some basic data about the histogram.
+
+WARNING: GUI can sometimes take a few minutes to respond especially when searching for a run or a dataset. Be patient with it.
+
+//////////////////////////////////
+	DAS Queries
+//////////////////////////////////
+
+- example query: das_client.py --query="file dataset=/SingleMuon/Run2017E-v1/RAW" --limit=0
+- example query: das_client.py --query="run dataset=/SingleMuon/Run2017E-v1/RAW"
+- 'file' (run) at the beginning means query result will show files (runs) in that dataset.
+- ...... for dataset=XXXX and run=YYYY.
+- limit option set to 0 means no limit on number of files shown.
+
+
+//////////////////////////////////
+	Git tips
+//////////////////////////////////
+First thing to do when you set up a new remote - just FORK it right off. This can be done on GitHub GUI.
+After you've cloned which ever repository you wish, you should branch it straight away:
+
+$> git checkout -b <my-new-branch-name>
+
+Now make your changes. Don't forget to 'git add <changed files>' and 'git commit' those sneaky changes
+you little biatch. Now if you haven't added the remote yet do so:
+
+$> git remote add <chosen-remote-name> https://Wilsker@github.com/Wilsker/<whatever-the-fork-you-forked>.git
+
+Now you can push to this repo:
+
+git push <chosen-remote-name> <my-new-branch-name>
+
+Problems with permissions etc? You're probably being a dumbass and forgetting that you need to set the remote url
+for https to something like:
+
+$> git remote set-url (--push) my-deployment https://github.com/Wilsker/<whatever-the-fork-you-forked>.git
+
+You may also want to check the 'url = ' and 'pushurl = ' lines of code in your local repositories '.git/config' file.

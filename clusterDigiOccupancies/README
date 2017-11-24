@@ -1,0 +1,17 @@
+#######################################
+    clusterDigiOccupancies.py
+#######################################
+
+Script runs on local mac machine. Run script using:
+
+$> /usr/local/Cellar/python/2.7.14/Frameworks/Python.framework/Versions/2.7/bin/python2.7 clusterDigiOccupancies.py
+
+Need python 2.7 as root was compiled using python 2.7 (hence pyroot only works with this version).
+
+Check which python ROOT was compiled with:
+
+$> root-config --config
+
+
+WARNING: Default Python that is run when running the command "python" (or python you run package that uses pyRoot) must be the same as the one root was installed with otherwise
+         pyRoot will not work.
